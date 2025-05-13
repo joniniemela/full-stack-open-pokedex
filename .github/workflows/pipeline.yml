@@ -40,7 +40,7 @@ jobs:
           curl -H "Content-Type: application/json" \
           -X POST \
           -d '{
-            "content": "**✅Deploy Successful!**"
+            "content": "**✅Deploy Successful!**\n${{ github.repository }}\nVersion: ${{ github.sha }}"
           }' \
           $WEBHOOK_URL #
 
@@ -52,7 +52,7 @@ jobs:
           curl -H "Content-Type: application/json" \
           -X POST \
           -d '{
-            "content": "**❌Deploy Failed!**"
+            "content": "**❌Deploy Failed!**\n${{ github.repository }}\nVersion: ${{ github.sha }}"
           }' \
           $WEBHOOK_URL
 
@@ -64,7 +64,7 @@ jobs:
           curl -H "Content-Type: application/json" \
           -X POST \
           -d '{
-            "content": "**🔄Deploy Cancelled!**"
+            "content": "**🔄Deploy Cancelled!**\n${{ github.repository }}\nVersion: ${{ github.sha }}"
           }' \
           $WEBHOOK_URL #
   tag_release:
