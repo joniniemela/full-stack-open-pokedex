@@ -34,31 +34,39 @@ jobs:
           apiKey: ${{ secrets.RENDER_API_KEY }}
       - name: Deployment success
         if: success()
+        env:
+          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
           curl -H "Content-Type: application/json" \
           -X POST \
           -d '{
-            "content:": "**✅Deploy Successful!'
+            "content": "**✅Deploy Successful!**"
           }' \
-          ${{ secrets.DISCORD_WEBHOOK }}
+          $WEBHOOK_URL #
+
       - name: Deployment failed
         if: failure()
+        env:
+          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
           curl -H "Content-Type: application/json" \
           -X POST \
           -d '{
-            "content:": "**❌Deploy Failed!'
+            "content": "**❌Deploy Failed!**"
           }' \
-          ${{ secrets.DISCORD_WEBHOOK }}
+          $WEBHOOK_URL
+
       - name: Deployment cancelled
         if: cancelled()
+        env:
+          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
           curl -H "Content-Type: application/json" \
           -X POST \
           -d '{
-            "content:": "**🔄Deploy Cancelled!**'
+            "content": "**🔄Deploy Cancelled!**"
           }' \
-          ${{ secrets.DISCORD_WEBHOOK }}
+          $WEBHOOK_URL #
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-22.04
